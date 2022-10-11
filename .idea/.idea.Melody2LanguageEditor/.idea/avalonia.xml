@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="Melody2LanguageEditor/App.axaml" value="Melody2LanguageEditor/Melody2LanguageEditor.csproj" />
+        <entry key="Melody2LanguageEditor/Views/MainWindow.axaml" value="Melody2LanguageEditor/Melody2LanguageEditor.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

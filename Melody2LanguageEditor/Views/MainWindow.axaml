@@ -1,0 +1,150 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Melody2LanguageEditor.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+        x:Class="Melody2LanguageEditor.Views.MainWindow"
+        Icon="/Assets/icon.ico"
+        Title="Melody2LanguageEditor"
+        MinHeight="350"
+        MinWidth="600">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="Auto, *"
+          RowDefinitions="Auto, Auto, *">
+        
+        <Menu Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Grid.Row="0"
+              Margin="0,0,0,5"
+              BorderThickness="1"
+              BorderBrush="#fff"
+              CornerRadius="0,0,3,3">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New Translation"
+                          IsEnabled="{Binding DefaultTranslationLoaded}"
+                          Command="{Binding NewTranslationAsync}"/>
+                <MenuItem Header="_Open Translation"
+                          IsEnabled="{Binding DefaultTranslationLoaded}"
+                          Click="MenuItem_Open_OnClick"/>
+                <MenuItem Header="_Save Translation"
+                          Click="MenuItem_Save_OnClick"
+                          IsEnabled="{Binding CanEdit}"/>
+                <MenuItem Header="Save Translation _As"
+                          Click="MenuItem_SaveAs_OnClick"
+                          IsEnabled="{Binding CanEdit}"/>
+                <Separator/>
+                <MenuItem Header="Load _Default Translation"
+                          Click="MenuItem_OpenDefault_OnClick"/>
+                <Separator/>
+                <MenuItem Header="_Exit"
+                          Click="MenuItem_Exit_OnClick"/>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Reset Current _Key"
+                          IsEnabled="{Binding CanEdit}"
+                          Command="{Binding SelectedCustomKey.ClearKeyValue}"/>
+                <MenuItem Header="Reset Current Keys _Category"
+                          IsEnabled="{Binding CanEdit}"
+                          Command="{Binding SelectedCustomKey.Category.ClearAllKeyValues}"/>
+            </MenuItem>
+        </Menu>
+        
+        <StackPanel Grid.Column="0"
+                    Grid.Row="1"
+                    IsEnabled="{Binding DefaultTranslationLoaded}"
+                    Margin="5"
+                    Spacing="10">
+            
+            <TextBlock HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       Text="Language Name"/>
+            
+            <TextBox TextAlignment="Center"
+                     IsEnabled="{Binding CanEdit}"
+                     Text="{Binding CustomTranslation.LanguageTitle}"/>
+        
+            <Separator/>
+            
+        </StackPanel>
+            
+        <TreeView Grid.Column="0"
+                  Grid.Row="2"
+                  IsEnabled="{Binding DefaultTranslationLoaded}"
+                  Items="{Binding DefaultTranslation.Categories}"
+                  SelectedItem="{Binding SelectedKey}"
+                  AutoScrollToSelectedItem="True">
+            
+            <TreeView.ItemTemplate>
+                <TreeDataTemplate ItemsSource="{Binding TranslateKeys}">
+                    <TextBlock Text="{Binding }"/>
+                </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+            
+        </TreeView>
+        
+        <Grid Grid.Column="1" 
+              Grid.Row="1"
+              Grid.RowSpan="2"
+              IsEnabled="{Binding DefaultTranslationLoaded}"
+              Margin="5"
+              RowDefinitions="Auto, Auto, Auto, *, Auto, Auto, *, Auto">
+            
+            <TextBlock Grid.Row="0"
+                       HorizontalAlignment="Center"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Text="{Binding SelectedKey.Key}"/>
+            
+            <Separator Grid.Row="1"
+                       Margin="0,10"/>
+            
+            <TextBlock Grid.Row="2"
+                       Margin="5"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       Text="Original Text"/>
+            
+            <TextBlock Grid.Row="3"
+                       IsEnabled="{Binding !DefaultTranslationLoaded}"
+                       IsVisible="{Binding !DefaultTranslationLoaded}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       Text="{Binding OpenDefault}"/>
+
+            <TextBox Grid.Row="3"
+                     IsReadOnly="True"
+                     Text="{Binding SelectedKey.Value}"/>
+            
+            <Separator Grid.Row="4"
+                       Margin="0,10"/>
+            
+            <TextBlock Grid.Row="5"
+                       Margin="5"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       Text="Translated Text:"/>
+            
+            <TextBlock Grid.Row="6"
+                       IsEnabled="{Binding !CanEdit}"
+                       IsVisible="{Binding !CanEdit}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       Text="{Binding OpenNewFile}"/>
+            
+            <TextBox Grid.Row="6"
+                     IsEnabled="{Binding CanEdit}"
+                     Text="{Binding SelectedCustomKey.Value}"/>
+            
+        </Grid>
+    </Grid>
+    
+</Window>
